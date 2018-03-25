@@ -4,37 +4,44 @@ from model import x, y_, keep_prob, y_conv
 from methods_for_adjust_params import toOne
 
 
-def run_to_cal_accuracy(mnist, accuracy):
+def run_to_cal_accuracy(data, accuracy):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         for i in range(2):
-            batch = mnist.train.next_batch(50)
+            batch = data.train.next_batch(50)
             if i % 100 == 0:
-                train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
+                train_accuracy = accuracy.eval(
+                    feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
                 print('step %d, training accuracy %g' % (i, train_accuracy))
-            train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+            train_step.run(
+                feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
-            print('test accuracy %g' % accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
+            print('test accuracy %g' % accuracy.eval(
+                feed_dict={x: data.test.images, y_: data.test.labels, keep_prob: 1.0}))
 
 
-def run_to_estimate(mnist, accuracy):
+def run_to_estimate(data, accuracy):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         flag = 1
         for i in range(2):
-            batch = mnist.train.next_batch(50)
-            train_step.run(feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 0.5})
+            batch = data.train.next_batch(50)
+            train_step.run(feed_dict={x: batch[0], y_: toOne(
+                batch[1], flag), keep_prob: 0.5})
             # train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
             if i % 1000 == 0:
-                train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 1.0})
+                train_accuracy = accuracy.eval(
+                    feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 1.0})
                 # train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
                 print('step %d, training accuracy %g' % (i, train_accuracy))
-                print('test accuracy %g' % accuracy.eval(feed_dict={x: mnist.test.images, y_: toOne(mnist.test.labels, flag), keep_prob: 1.0}))
-                # print('test accuracy %g' % accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
-        print(y_conv.eval(feed_dict={x: mnist.test.images, keep_prob: 1.0}))
-        for test_x, test_y in zip(mnist.test.images, mnist.test.labels):
-            answer = sess.run(tf.argmax(y_conv, 1), feed_dict={x: [test_x], keep_prob: 1.0})
+                print('test accuracy %g' % accuracy.eval(feed_dict={
+                      x: data.test.images, y_: toOne(data.test.labels, flag), keep_prob: 1.0}))
+                # print('test accuracy %g' % accuracy.eval(feed_dict={x: data.test.images, y_: data.test.labels, keep_prob: 1.0}))
+        print(y_conv.eval(feed_dict={x: data.test.images, keep_prob: 1.0}))
+        for test_x, test_y in zip(data.test.images, data.test.labels):
+            answer = sess.run(tf.argmax(y_conv, 1), feed_dict={
+                              x: [test_x], keep_prob: 1.0})
             test_value = test_y.argmax(0)
             test_value = 0 if flag == test_value else 1
             if test_value != answer[0]:
@@ -43,7 +50,7 @@ def run_to_estimate(mnist, accuracy):
 
 
 if __name__ == '__main__':
-    mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+    data = input_data.read_data_sets('MNIST_data', one_hot=True)
 
     sess = tf.InteractiveSession()
 
@@ -53,5 +60,5 @@ if __name__ == '__main__':
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    # run_to_cal_accuracy(mnist, accuracy)
-    run_to_estimate(mnist, accuracy)
+    # run_to_cal_accuracy(data, accuracy)
+    run_to_estimate(data, accuracy)
