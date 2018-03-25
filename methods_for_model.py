@@ -1,5 +1,4 @@
 import tensorflow as tf
-import numpy as np
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
@@ -20,11 +19,3 @@ def max_pool_2x2(x):
                           ksize=[1, 2, 2, 1],
                           strides=[1, 2, 2, 1],
                           padding='SAME')
-
-
-def toOne(array, flag):
-    obj = np.zeros((array.shape[0], 2))
-    for i, item in enumerate(array):
-        if item[flag] == 1:
-            obj[i][0] = 1
-    return obj
