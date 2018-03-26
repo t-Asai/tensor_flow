@@ -13,6 +13,7 @@ def run_to_cal_accuracy(data, accuracy):
                 train_accuracy = accuracy.eval(
                     feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
                 print('step %d, training accuracy %g' % (i, train_accuracy))
+                print(batch)
             train_step.run(
                 feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
@@ -60,5 +61,5 @@ if __name__ == '__main__':
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    # run_to_cal_accuracy(data, accuracy)
-    run_to_estimate(data, accuracy)
+    run_to_cal_accuracy(data, accuracy)
+    # run_to_estimate(data, accuracy)

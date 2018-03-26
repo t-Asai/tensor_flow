@@ -2,7 +2,7 @@ import tensorflow as tf
 from methods_for_model import weight_variable, bias_variable, conv2d, max_pool_2x2
 
 x = tf.placeholder(tf.float32, shape=[None, 784])
-y_ = tf.placeholder(tf.float32, shape=[None, 2])
+y_ = tf.placeholder(tf.float32, shape=[None, 10])
 
 W_conv1 = weight_variable([5, 5, 1, 32])
 b_conv1 = bias_variable([32])
@@ -27,7 +27,7 @@ h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 keep_prob = tf.placeholder(tf.float32)
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-W_fc2 = weight_variable([1024, 2])
-b_fc2 = bias_variable([2])
+W_fc2 = weight_variable([1024, 10])
+b_fc2 = bias_variable([10])
 
 y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
