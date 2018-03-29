@@ -50,7 +50,7 @@ def run_to_estimate(data, accuracy):
                 # print(test_value, answer[0])
 
 
-if __name__ == '__main__':
+def main():
     data = input_data.read_data_sets('MNIST_data', one_hot=True)
 
     sess = tf.InteractiveSession()
@@ -63,3 +63,6 @@ if __name__ == '__main__':
 
     run_to_cal_accuracy(data, accuracy)
     # run_to_estimate(data, accuracy)
+
+if __name__ == '__main__':
+    main()
