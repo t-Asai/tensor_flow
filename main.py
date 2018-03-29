@@ -29,11 +29,11 @@ def run_to_estimate(data, accuracy, train_step):
             # train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
             if i % 1000 == 0:
-                train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 1.0})
-                # train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
+                # train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 1.0})
+                train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
                 print('step %d, training accuracy %g' % (i, train_accuracy))
-                print('test accuracy %g' % accuracy.eval(feed_dict={x: data.test.images, y_: toOne(data.test.labels, flag), keep_prob: 1.0}))
-                # print('test accuracy %g' % accuracy.eval(feed_dict={x: data.test.images, y_: data.test.labels, keep_prob: 1.0}))
+                # print('test accuracy %g' % accuracy.eval(feed_dict={x: data.test.images, y_: toOne(data.test.labels, flag), keep_prob: 1.0}))
+                print('test accuracy %g' % accuracy.eval(feed_dict={x: data.test.images, y_: data.test.labels, keep_prob: 1.0}))
         print(y_conv.eval(feed_dict={x: data.test.images, keep_prob: 1.0}))
         for test_x, test_y in zip(data.test.images, data.test.labels):
             answer = sess.run(tf.argmax(y_conv, 1), feed_dict={x: [test_x], keep_prob: 1.0})
