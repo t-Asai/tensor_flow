@@ -4,7 +4,7 @@ from model import x, y_, keep_prob, y_conv
 from methods_for_adjust_params import toOne
 
 
-def run_to_cal_accuracy(data, accuracy):
+def run_to_cal_accuracy(data, accuracy, train_step):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         for i in range(2):
@@ -21,7 +21,7 @@ def run_to_cal_accuracy(data, accuracy):
                 feed_dict={x: data.test.images, y_: data.test.labels, keep_prob: 1.0}))
 
 
-def run_to_estimate(data, accuracy):
+def run_to_estimate(data, accuracy, train_step):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         flag = 1
@@ -61,7 +61,7 @@ def main():
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-    run_to_cal_accuracy(data, accuracy)
+    run_to_cal_accuracy(data, accuracy, train_step)
     # run_to_estimate(data, accuracy)
 
 if __name__ == '__main__':
