@@ -1,6 +1,6 @@
 from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
-from model import x, y_, keep_prob, y_conv
+from net_models.tutorial import x, y_, keep_prob, y_conv
 from methods_for_adjust_params import toOne
 
 
@@ -24,9 +24,8 @@ def run_to_estimate(data, accuracy, train_step):
         flag = 1
         for i in range(20000):
             batch = data.train.next_batch(50)
-            train_step.run(feed_dict={x: batch[0], y_: toOne(
-                batch[1], flag), keep_prob: 0.5})
-            # train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+            # train_step.run(feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 0.5})
+            train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
             if i % 1000 == 0:
                 # train_accuracy = accuracy.eval(feed_dict={x: batch[0], y_: toOne(batch[1], flag), keep_prob: 1.0})
