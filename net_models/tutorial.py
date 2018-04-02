@@ -1,12 +1,17 @@
 import tensorflow as tf
 from methods_for_model import weight_variable, bias_variable, conv2d, max_pool_2x2
 
+# shape of x is [input batch size, input image size]
 x = tf.placeholder(tf.float32, shape=[None, 28 * 28])
+# shape of y is [input batch size, input label size]
 y_ = tf.placeholder(tf.float32, shape=[None, 10])
 
+# [window size for convolution x, y, #input layers, #output layers]
 W_conv1 = weight_variable([5, 5, 1, 32])
+# [#output layers]
 b_conv1 = bias_variable([32])
 
+# [batch size, shape of x, y, #output] 
 x_image = tf.reshape(x, [-1, 28, 28, 1])
 
 h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
@@ -18,6 +23,7 @@ b_conv2 = bias_variable([128])
 h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 h_pool2 = max_pool_2x2(h_conv2)
 
+# because of pooling two times, image size be 28/pow(2, 2) times 28/pow(2, 2)
 W_fc1 = weight_variable([7 * 7 * 128, 1024])
 b_fc1 = bias_variable([1024])
 
