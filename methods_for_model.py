@@ -10,6 +10,7 @@ def bias_variable(shape):
     return tf.Variable(initial)
 
 
+# strides is a tensor to slide window in convoluting or pooling [input layer, x_axis of loading, y_axis in loading, output layer]
 def conv2d(x, W):
     return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
